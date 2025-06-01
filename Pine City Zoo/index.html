@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" lang="English">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="styles/styles.css">
+    </head>
+    <body>
+        <div id="header">
+            <a href="index.html"> <img src="images/logo.png"/></a>
+        </div>
+        <div id="tabs-top">
+            <a href="pages/animals.html">ANIMALS</a>
+            <a href="index.html">MAP</a>
+            <a href="pages/places.html">PLACES</a>
+        </div>
+     <!--------------------------------------CLICKABLE MAP-----------------------------------------------------------> 
+        <div cla="main-home"></div>
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Pine City Zoo Map</h1>
+        <p class="text-center text-gray-600 mb-6">Hover over a place to see its name, or click to visit its page!</p>
+
+       <div id="hoverInfo"> </div>
+
+        <img src="images/map.png"  width="100%" alt="Pine City Zoo Map" usemap="#zooMap" class="map-image">
+
+        <map name="zooMap">
+
+            <area shape="rect" coords="400,20,650,220" href="pages/lostforest.html" alt="Lost Forest" title="Lost Forest">
+            <area shape="rect" coords="10,50,250,300" href="pages/amphitheatre.html" alt="Amphitheatre" title="Amphitheatre">
+            <area shape="rect" coords="200,470,400,600" href="pages/monkeytrail.html" alt="Monkey Trail" title="Monkey Trail">
+            <area shape="rect" coords="480,480,630,550" href="pages/insecthouse.html" alt="Insect House" title="Insect House">
+            <area shape="rect" coords="250,280,380,350" href="pages/pizzashop.html" alt="Mo's Pizza Shop" title="Mo's Pizza Shop">
+        </map>
+    </div>
+
+
+
+        <div id="tabs-bottom">
+            <a href="pages/weather.html ">WEATHER</a>
+            <a href="pages/feedback.html">FEEDBACK</a>
+        </div>
+
+        
+        <script>
+        // Get all area elements within the map
+        const mapAreas = document.querySelectorAll('map[name="zooMap"] area');
+        const hoverInfo = document.getElementById('hoverInfo');
+
+        // Add event listeners for hover effect
+        mapAreas.forEach(area => {
+            area.addEventListener('mouseover', function() {
+                // Display the title (place name) in the hover info box
+                hoverInfo.textContent = this.getAttribute('title');
+                hoverInfo.classList.add('show'); // Make it visible
+            });
+
+            area.addEventListener('mouseout', function() {
+                // Clear content and hide the hover info box
+                hoverInfo.textContent = '';
+                hoverInfo.classList.remove('show');
+            });
+            // The 'click' event is handled by the default behavior of the href attribute.
+        });
+
+        // Ensure responsiveness of the image map
+        window.addEventListener('resize', resizeMap);
+        window.addEventListener('load', resizeMap);
+
+        /**
+         * Adjusts the image map coordinates based on the image's current size.
+         * This is a basic implementation and might need more advanced logic for complex shapes.
+         */
+        function resizeMap() {
+            const img = document.querySelector('.map-image');
+            // Assuming the original image width is 700px. Adjust if your map.jpg has a different base width.
+            const originalWidth = 700;
+            const currentWidth = img.offsetWidth;
+            const ratio = currentWidth / originalWidth;
+
+            mapAreas.forEach(area => {
+                // Store original coordinates on first load, or retrieve if already stored
+                if (!area.originalCoords) {
+                    area.originalCoords = area.getAttribute('coords').split(',').map(Number);
+                }
+                const newCoords = area.originalCoords.map(coord => Math.round(coord * ratio));
+                area.setAttribute('coords', newCoords.join(','));
+            });
+        }
+    </script>
+    </body>
+</html>
