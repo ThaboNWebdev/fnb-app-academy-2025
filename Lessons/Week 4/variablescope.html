@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variable Scope</title>
+</head>
+<body>
+    <p id="outputText"></p>
+
+
+         <script>
+            someFunction();
+
+            function someFunction(){
+                var someVariable = 100;
+                document.getElementById("outputText").innerHTML = someVariable;
+            }
+
+
+
+    </script>
+    
+</body>
+</html>
